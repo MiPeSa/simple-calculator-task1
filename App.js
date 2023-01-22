@@ -1,6 +1,6 @@
 import React from'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Alert, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, TextInput, FlatList, Keyboard } from 'react-native';
 
 export default function App() {
 
@@ -8,15 +8,22 @@ export default function App() {
   const [secNumber, setSecNumber] = React.useState('');
   const [answer, setAnswer] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [history, setHistory] = React.useState([]);
 
   const buttonPressed = (button) => {
     if ((button) === '+') {
-      setAnswer(parseInt(number) + parseInt(secNumber));
-      setOpen(true);
+      setHistory([...history, {key: number, num: secNumber, button: button, answer: (parseInt(number) + parseInt(secNumber))}]);
+      setAnswer((parseInt(number) + parseInt(secNumber)))
+      Keyboard.dismiss();
+      setNumber('');
+      setSecNumber('');
     }
     else if (button === '-') {
+      setHistory([...history, {key: number, num: secNumber, button: button, answer: (parseInt(number) - parseInt(secNumber))}]);
       setAnswer(parseInt(number) - parseInt(secNumber));
-      setOpen(true);
+      Keyboard.dismiss();
+      setNumber('');
+      setSecNumber('');
     } 
     else{
       Alert.alert('error')
@@ -29,8 +36,7 @@ export default function App() {
           <Text style={styles.header}>Simple Calculator</Text>
           <Text>Set numbers and press + or -</Text>
       </View>
-          <Text style={styles.results} open={false}>Result: {answer}</Text>
-      <StatusBar style="auto" />
+          <Text style={styles.results}>Result: {answer}</Text>
       <View>
           <TextInput
               style={styles.textinput}
@@ -47,8 +53,16 @@ export default function App() {
       </View>
       <View style={styles.button}>
           <Button color="lightgreen" width="50" onPress={() => buttonPressed('+')} title={'+'} />
-          <Button color="red" onPress={() => buttonPressed('-')} title={'-'} />  
+          <Button color="red" onPress={() => buttonPressed('-')} title={'-'}
+          />  
       </View>
+        <Text>History</Text>
+          <FlatList
+            data={history}
+            renderItem={({item}) => <Text>{item.key} {item.button} {item.num} = {item.answer}</Text>}
+            keyExtractor={(item, index) => index.toString()}
+          />
+      <StatusBar style="auto" />
     </View>
   );
 }
@@ -80,5 +94,5 @@ const styles = StyleSheet.create({
   },
   headerBox: {
     margin: 20,
-  }
+  },
 });
