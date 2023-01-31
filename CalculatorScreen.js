@@ -12,7 +12,6 @@ export default function CalculatorScreen({ navigation }) {
   
     const buttonPressed = (pressed) => {
       if ((pressed) === '+') {
-        setButton(pressed)
         setHistory([...history, {key: number, num: secNumber, button: pressed, ans: (parseInt(number) + parseInt(secNumber))}]);
         setAnswer((parseInt(number) + parseInt(secNumber)))
         Keyboard.dismiss();
@@ -20,7 +19,6 @@ export default function CalculatorScreen({ navigation }) {
         setSecNumber('');
       }
       else if ((pressed) === '-') {
-        setButton(pressed)
         setHistory([...history, {key: number, num: secNumber, button: pressed, ans: (parseInt(number) - parseInt(secNumber))}]);
         setAnswer((parseInt(number) - parseInt(secNumber)))
         Keyboard.dismiss();
