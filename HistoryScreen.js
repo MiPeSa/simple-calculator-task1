@@ -3,8 +3,7 @@ import { View, Text, StyleSheet, FlatList } from 'react-native';
 
 export default function HistoryScreen({ route }) {
 
-    const { table } = route.params;
-    console.log(table)
+  const { table } = route.params;
 
     return (
       <View style={styles.container}>
@@ -40,7 +39,8 @@ const styles = StyleSheet.create({
   },
   results: {
     margin: 20,
-
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
 });
